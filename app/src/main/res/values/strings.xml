@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CityApplication</string>
+    <string name="retry">Обновить</string>
+    <string name="loading_failed">Произошла ошибка</string>
+    <string name="loading">Loading</string>
+    <string name="city_name">City name</string>
+</resources>
