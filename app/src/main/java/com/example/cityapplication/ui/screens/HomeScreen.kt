@@ -39,6 +39,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -213,6 +214,7 @@ fun CityNameCard(name: String, modifier: Modifier = Modifier,) {
             modifier = Modifier
                 .requiredHeight(40.dp)
                 .fillMaxWidth()
+                .clip(RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp))
                 .padding(start = 56.dp, top = 8.dp, bottom = 8.dp, end = 16.dp)
                 .clickable { },
             shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
@@ -221,7 +223,8 @@ fun CityNameCard(name: String, modifier: Modifier = Modifier,) {
         ){
                 Text(
                     text = name,
-                    modifier =  modifier,
+                    modifier =  modifier
+                        .padding(start = 16.dp),
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                     style = MaterialTheme.typography.bodyLarge,
