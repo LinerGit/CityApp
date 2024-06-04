@@ -17,7 +17,7 @@ import com.example.cityapplication.ui.screens.HomeScreen
 fun CityNamesApp() {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+        //modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     ) {
         Surface(
             modifier = Modifier.fillMaxSize()

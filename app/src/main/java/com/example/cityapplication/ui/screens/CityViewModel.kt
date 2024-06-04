@@ -1,7 +1,5 @@
 package com.example.cityapplication.ui.screens
 
-import android.net.http.HttpResponseCache
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -15,11 +13,15 @@ import com.example.cityapplication.data.CityNamesRepository
 import com.example.cityapplication.model.City
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import retrofit2.Response
 import java.io.IOException
+import java.util.SortedMap
 
+data class Category(
+    val name: String,
+    val items: List<City>
+)
 sealed interface CityUiState {
-    data class Success(val cities: List<City>) : CityUiState
+    data class Success(val cities: List<City>, val categories: SortedMap<Char, List<City>>) : CityUiState
     object Error : CityUiState
     object Loading : CityUiState
 }
@@ -34,12 +36,18 @@ class CityViewModel(private val cityNamesRepository: CityNamesRepository) : View
         getCityNames()
     }
 
+
+
     fun getCityNames() {
         viewModelScope.launch {
             cityUiState = CityUiState.Loading
             cityUiState = try {
+                val cities = cityNamesRepository.getCityNames()
+                val sortedCities = cities.sortedBy{ it.name }
+                val filteredCities = sortedCities.filterIndexed { index, _ -> (index > 3) }
+                val grouped = filteredCities.groupBy { it.name[0] }.toSortedMap()
+                CityUiState.Success(filteredCities, grouped)
 
-                CityUiState.Success(cityNamesRepository.getCityNames())
             } catch (e: IOException) {
                 CityUiState.Error
             } catch (e: HttpException) {

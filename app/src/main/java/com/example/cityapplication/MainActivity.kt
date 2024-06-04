@@ -16,7 +16,6 @@ import com.example.cityapplication.ui.theme.CityApplicationTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContent {
             CityApplicationTheme {
@@ -25,6 +24,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+
                     CityNamesApp()
                 }
             }

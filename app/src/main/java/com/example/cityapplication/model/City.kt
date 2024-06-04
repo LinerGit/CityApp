@@ -13,5 +13,7 @@ data class City(
     @SerialName("latitude")
     val lat: String,
     @SerialName("longitude")
-    val long: String
+    val lon: String
 )
+
+

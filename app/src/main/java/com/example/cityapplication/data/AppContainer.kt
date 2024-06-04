@@ -12,7 +12,7 @@ interface AppContainer {
 
 class DefaultAppContainer: AppContainer {
     private val baseUrl = "https://gist.githubusercontent.com/Stronger197/764f9886a1e8392ddcae2521437d5a3b/raw/65164ea1af958c75c81a7f0221bead610590448e/"
-
+    private val weatherBaseUrl = ""
     private val retrofit: Retrofit = Retrofit.Builder()
         .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
         .baseUrl(baseUrl)
