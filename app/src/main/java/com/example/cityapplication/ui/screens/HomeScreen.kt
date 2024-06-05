@@ -2,7 +2,6 @@ package com.example.cityapplication.ui.screens
 
 
 
-import androidx.collection.intFloatMapOf
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -18,7 +17,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredSize
@@ -34,22 +32,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
 import com.example.cityapplication.R
 import com.example.cityapplication.model.City
-import java.time.format.TextStyle
 import java.util.SortedMap
 
 
@@ -58,13 +51,13 @@ fun HomeScreen(
     cityUiState: CityUiState,
     retryAction: () -> Unit,
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(0.dp),
+    contentPadding: PaddingValues,
 ) {
     when (cityUiState) {
         is CityUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
         is CityUiState.Success -> CityListScreen(
-            cityUiState.cities, contentPadding = contentPadding, modifier = modifier.fillMaxWidth(),  categories = cityUiState.categories
-        )
+            modifier = modifier.fillMaxWidth(),  categories = cityUiState.categories,
+        contentPadding)
         is CityUiState.Error -> ErrorScreen(retryAction, modifier = modifier.fillMaxSize())
     }
 }
@@ -122,30 +115,15 @@ fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CityListScreen(
-    cities: List<City>,
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(0.dp),
-    categories: SortedMap<Char, List<City>>
+    categories: SortedMap<Char, List<City>>,
+    contentPaddingValues: PaddingValues
 ) {
-
-    val namesList = categories.map {
-        Category(
-            name = it.key.toString(),
-            items = it.value
-        )
-    }
-    //cities.
     Scaffold (
 
         modifier = Modifier,
-        content = { it ->
-
+        content = {
             val listState = rememberLazyListState()
-            val isAtTopOfList by remember {
-                derivedStateOf {
-                    listState.firstVisibleItemIndex < 3
-                }
-            }
 
             LazyColumn(
                 state = listState,
@@ -182,10 +160,6 @@ fun CityListScreen(
     )
     }
 
-@Composable
-fun ScrollToTopButton() {
-    TODO("Not yet implemented")
-}
 
 @Composable
 private fun CategoryHeader(
